@@ -1,0 +1,35 @@
+@startuml Inventory
+actor Customer #DarkGoldenRod
+InventoryManager <-- Warehouse : adding n products in inventory from warehouse
+activate InventoryManager
+activate Warehouse
+Customer -> InventoryManager : Entry Message
+activate Customer
+loop untill k!=9
+    InventoryManager --> Customer : Add/remove product, Add/remove stocks, Add/cancel products, Display/search products,Quit
+    Customer -> InventoryManager : Enters Option
+    alt Option 1/Option 2
+        InventoryManager-->Customer : Add/delete product from warehouse
+        Customer->InventoryManager : Enters product details to add/delete products
+        InventoryManager->Warehouse : updates product list
+    else Option 3/Option 4
+        InventoryManager -->Customer : Add/remove stocks from products in warehouse
+        Customer->InventoryManager : Enters product details and stocks to add/remove stocks
+        InventoryManager -> Warehouse : Updates stocks of the products
+    else Option 5/Option 6
+        InventoryManager --> Customer : Take/cancel orders 
+        Customer -> InventoryManager : Enters product details to take/cancel orders
+        InventoryManager -> Warehouse : Updates product list
+    else Option 7/Option 8
+        InventoryManager --> Customer : Display/search products
+        Customer -> InventoryManager : Enters product details
+        InventoryManager -> Warehouse : Checks product list
+        deactivate Warehouse
+        InventoryManager --> Customer : Displays the product
+    else Option 9
+        InventoryManager--> Customer : Exit message
+        deactivate InventoryManager
+        deactivate Customer
+    end
+end loop
+@enduml

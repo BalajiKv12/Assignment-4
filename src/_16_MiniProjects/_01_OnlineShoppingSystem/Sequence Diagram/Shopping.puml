@@ -1,0 +1,44 @@
+@startuml Shopping
+actor Customer #GreenYellow
+ShoppingSystem -> Database : Enter n products
+activate ShoppingSystem
+activate Database
+Customer -> ShoppingSystem : Opening Shopping Site
+activate Customer
+loop untill k!=3
+    ShoppingSystem --> Customer : Create new Account/Delete Accoun/Logout
+    Customer -> ShoppingSystem : Enters Option
+    alt Option 1 
+        ShoppingSystem --> Customer : Create new Account
+        Customer -> ShoppingSystem : Enters Details
+        ShoppingSystem -> Database : Stores Customer Details
+        loop untill e!=3
+            ShoppingSystem --> Customer : Add Product/Delete Product/Checkout
+            Customer -> ShoppingSystem : Enters Option
+            alt Option 1 
+                ShoppingSystem --> Customer :  Add Products to cart
+                loop until j==1
+                    Customer -> ShoppingSystem : Selects products and adds to cart
+                    ShoppingSystem -> Database : Stores Customer selected products
+                end loop
+            else Option 2
+                ShoppingSystem --> Customer :Delete products from cart
+                Customer -> ShoppingSystem : Customer Deletes Products from cart
+                ShoppingSystem -> Database : Saves changes in cart
+            else Option 3
+                ShoppingSystem --> Customer : Shows Prducts in cart, total price and checks out
+            end 
+        end loop
+    else Option 2
+        ShoppingSystem -->Customer : Asks Customer ID to delete account
+        Customer -> ShoppingSystem : Enters Customer ID 
+        ShoppingSystem -> Database : Removes Customer Account
+        deactivate Database
+    else Option 3
+        ShoppingSystem --> Customer : Thank You Message
+        deactivate ShoppingSystem
+        deactivate Customer
+    end
+end loop
+
+@enduml

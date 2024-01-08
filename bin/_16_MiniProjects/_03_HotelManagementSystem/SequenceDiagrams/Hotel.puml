@@ -1,0 +1,51 @@
+@startuml Hotel
+actor Customer #DarkBlue
+HotelManagement -> Database : Enters and Updates Rooms Available
+activate HotelManagement
+activate Database
+Customer -> HotelManagement : Asks type of rooms available
+activate Customer
+loop until n!=3
+    HotelManagement --> Customer : Single/Double Bedroom rooms available
+    Customer -> HotelManagement : Enters Option
+    alt Option 1/Option 2
+        HotelManagement --> Customer : Displays available rooms in Single/double Bedroom rooms
+        loop until k!=4
+            HotelManagement --> Customer : Book/Reserve rooms, Check Avaibality, Quit
+            Customer -> HotelManagement : Enters Option
+            alt Option 1/Option 3
+                HotelManagement --> Customer : Asks Customer Room no to book/reserve
+                Customer -> HotelManagement : Enters Room Number
+                HotelManagement -> Database : Checks Rooms Avaibality
+                alt Available
+                    HotelManagement --> Customer : Asks Customer details,check-in date and number of days
+                    Customer -> HotelManagement : Enters required details
+                    HotelManagement -> Database : Updates rooms avaibality
+                    HotelManagement --> Customer : Generates bill, Thank You message
+                else Not Available
+                    HotelManagement --> Customer : Room not available
+                end
+            else Option 2
+                HotelManagement -> Database : Checks Available Rooms
+                HotelManagement --> Customer : Shows Available Rooms
+            else Option 4
+                HotelManagement --> Customer : Exit message
+        end loop
+    else Option 3
+        HotelManagement --> Customer : Exit message
+    end
+end loop
+HotelManagement --> Customer : Asks Customer to display Customer details or quit
+Customer -> HotelManagement : Enters Option
+alt Option 1 
+    HotelManagement --> Customer : Asks Customer Name
+    Customer -> HotelManagement : Enters name
+    HotelManagement -> Database : Searchs Customer Name and details
+    deactivate Database
+    HotelManagement --> Customer : Displays Customer details
+else Option 2
+    HotelManagement --> Customer : Exit Message
+    deactivate HotelManagement
+    deactivate Customer
+end
+@enduml

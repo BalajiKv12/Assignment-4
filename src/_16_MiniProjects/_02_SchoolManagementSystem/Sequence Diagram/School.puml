@@ -1,0 +1,41 @@
+@startuml School
+actor Student #DarkBlue
+actor Teacher #GreenYellow
+Register -> SchoolDatabase : Enters n number of students and teachers details
+activate Register
+activate SchoolDatabase
+Student -> Register : Enters Register Office
+activate Student
+activate Teacher
+loop k!=10
+    Register --> Student : Add/Remove/Update/Display Student Details,Add/View Course,Add Grade,Quit
+    Student -> Register : Enters Option
+    alt Option 1/2/3/4
+        Register --> Student : Asks Student details to Add/Remove/Update/Display Student details
+        Student -> Register : Enters necessary details to Add/Remove/Update/Display Student Details
+        Register -> SchoolDatabase : Updates Student Details
+    else Option 7/9
+    Register --> Student : Asks Course Details to view/add
+    Student -> Register : Enters Course Details
+    Register -> SchoolDatabase : Updates course details
+    else Option 8
+    Register --> Student : Asks Student Grade to update
+    Student -> Register : Enters Grade details
+    Register -> SchoolDatabase : Updates Student grade
+    else Option 10
+    Register --> Student : Exit Message
+    deactivate Student
+    end
+    
+    alt Option 5/6
+    Register -->Teacher : asks Teacher details to add/remove
+    Teacher ->Register : Enters Teachers to add/remove
+    deactivate Teacher
+    Register -> SchoolDatabase : Updates Teacher Details
+    deactivate Register
+    deactivate SchoolDatabase
+    end
+   
+end loop
+
+@enduml
